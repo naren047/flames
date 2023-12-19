@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flames</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="inputblock">
+            <p>N A M E</p>
+            <input type="text" class="name1">
+        </div>
+        <div class="inputblock">
+            <p>P A R T N E R ' S</p>
+            <input type="text" class="name2">
+        </div>   
+        <button>F L A M E S</button>
+    </div>
+</body>
+</html>
+
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #cdb4db;
+        color:#cdb4db;
+        height:100%;
+        width: 100%;
+        margin:0;
+    }
+    html{
+        height:100%;
+        width: 100%;
+    }
+
+    @media (max-width : 400px) {
+        .container{
+            width:80%;
+            gap:0;
+        }
+        p{
+            font-size: 16px;
+        }
+    }
+    @media (min-width:701px){
+        .container{
+            width:400px;
+        }
+        p{
+            font-size: 18px;
+        }
+    }
+    
+    input{
+        height:36px;
+        border-radius: 6px;
+        border: 0;
+        background-color: #cdb4db;
+        text-align: center;
+        font-family: monospace;
+        font-size: larger;
+        cursor: text;
+        color:#1D3557;
+        max-width:50%;
+        flex:1;
+    }
+    .inputblock{
+        display: flex;
+        width:100%;
+        justify-content: space-between;
+        align-items: center;
+        gap:15px;
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding:25px;
+        height: fit-content;
+        background-color: #1d3557;
+        border-radius: 6px;
+        border: none;
+        gap:18px;
+    }
+    p{
+        display: inline-block;
+        font-family: 'Montserrat';
+        margin:0;
+    }
+    button{
+        display: block;
+        width: 100%;
+        height:45px;
+        border:none;
+        border-radius: 6px;
+        font-size: x-large;
+        font-family: monospace;        
+        cursor: pointer;
+        background-color: #1D3557;
+        color: #cdb4db;
+    }
+    button:hover{
+        background-color: #cdb4db;
+        color:#1D3557;
+    }
+    button:active{
+        background-color: #d192f8;
+        color:#1D3557;
+    }
+    input:focus{
+        outline:none;
+    }
+
+    @keyframes movement{
+        0%{
+           transform: translateX(-6px); 
+        }
+        50%{
+            transform: translateX(12px);
+        }
+        100%{
+            transform: translateX(-6px);
+        }
+    }
+
+</style>
+
+<script>
+    const names = document.querySelectorAll('input')
+    const button = document.querySelector('button')
+    const container = document.querySelector('.container')
+    const disp = document.createElement('p')
+    
+    const returnbtn = document.createElement('button')
+    returnbtn.innerText = 'F L A M E S'
+    returnbtn.style.backgroundColor = "#cdb4db"
+    returnbtn.style.color="#1D3557"
+
+    function errordisp(){
+        disp.innerText = "' Please enter the names '"
+        if(!container.contains(disp)){
+            container.append(disp)
+        }
+        else{
+            disp.remove()
+            container.append(disp)
+            disp.style.animation = "0.15s movement"
+        }
+    }
+
+    function flamesCount(str1,str2){
+        const arr1 = [...str1]
+        const arr2 = [...str2]
+        let count = 0
+        for(i=0;i<arr1.length;i++){
+            for(j=0;j<arr2.length;j++){
+                if(arr1[i]==arr2[j]){
+                    count++
+                    arr1.splice(i,1)
+                    arr2.splice(j,1)
+                    i--
+                    j--
+                    break
+                }
+            }
+        }
+        return count
+    }
+
+    function flames(){
+        const name1 = names[0].value.toLowerCase()
+        const name2 = names[1].value.toLowerCase()
+        
+        const count = flamesCount(name1,name2)
+        
+        const flamesArr = ['f','l','a','m','e','s']
+
+        let pointer = -1
+
+        while(flamesArr.length>1){
+            for(i=0;i<count;i++){
+                pointer++
+                if(pointer>flamesArr.length-1){
+                    pointer=0
+                }               
+            }
+            flamesArr.splice(pointer,1)
+            pointer= pointer-1
+        }
+
+        const result = {
+            f : '😌 F R I E N D S H I P',
+            l : '😍 L O V E',
+            a : '🥰 A F F E C T I O N',
+            m : '😚	 M A R R I A G E',
+            e : '😑	 E N E M Y',
+            s : '🙂	 S I S T E R'
+        }   
+
+        container.innerHTML = `<p>${result[flamesArr[0]]}</p>`
+        container.append(returnbtn)
+
+    }
+
+    button.addEventListener('click',() => {
+        if(names[0].value=='' || names[1].value==''){
+            errordisp()
+        }
+        else{
+            flames()
+        }
+    })
+
+    returnbtn.addEventListener('mouseover',(event)=>{
+        event.target.style.backgroundColor = "#1D3557"
+        event.target.style.color="#cdb4db"
+    })
+    returnbtn.addEventListener('mouseout',(event)=>{
+        event.target.style.backgroundColor = "#cdb4db"
+        event.target.style.color="#1D3557"
+    })
+
+    returnbtn.addEventListener('click',()=>{
+        returnbtn.style.backgroundColor = "#d192f8"
+        returnbtn.style.color="#1D3557"
+        location.reload()
+    })
+
+</script>
