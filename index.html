@@ -157,20 +157,31 @@
 
     function flamesCount(str1,str2){
         let count = 0
-        const set1 = new Set(str1)
-        const set2 = new Set(str2)
 
-        const arr1 = [...set1]
-        const arr2 = [...set2]
+        const arr1 = [...str1]
+        const arr2 = [...str2]
+        const matchedset = new Set()
 
         for(i=0;i<arr1.length;i++){
+            let matched = false
             for(j=0;j<arr2.length;j++){
                 if(arr1[i]==arr2[j]){
-                    arr1.splice(i,1)
-                    arr2.splice(j,1)
-                    i--
-                    j--
+                    matchedset.add(arr1[i])
                 }
+            }
+        }
+
+        for(i=0;i<arr1.length;i++){
+            if(matchedset.has(arr1[i])){
+                arr1.splice(i,1)
+                i--
+            }
+        }
+
+        for(i=0;i<arr2.length;i++){
+            if(matchedset.has(arr2[i])){
+                arr2.splice(i,1)
+                i--
             }
         }
 
@@ -188,15 +199,11 @@
 
         let pointer = -1
 
-        while(flamesArr.length>1){
-            for(i=0;i<count;i++){
-                pointer++
-                if(pointer>flamesArr.length-1){
-                    pointer=0
-                }               
-            }
-            flamesArr.splice(pointer,1)
-            pointer= pointer-1
+        for(i=0;i<count;i++){
+            pointer++
+            if(pointer>flamesArr.length-1){
+                pointer=0
+            }               
         }
 
         const result = {
@@ -208,25 +215,18 @@
             s : '🙂	S I B L I N G S'
         }   
 
-        container.innerHTML = `<p>${result[flamesArr[0]]}</p>`
+        container.innerHTML = `<p>${result[flamesArr[pointer]]}</p>`
         container.append(returnbtn)
 
     }
 
-    function run(){
+    button.addEventListener('click',() => {
         if(names[0].value=='' || names[1].value==''){
             errordisp()
         }
         else{
             flames()
         }
-    }
-    
-    button.addEventListener('click',run)
-    document.addEventListener('keydown',(event)=>{
-      if(event.key=="Enter"){
-          run()
-      }
     })
 
     returnbtn.addEventListener('mouseover',(event)=>{
