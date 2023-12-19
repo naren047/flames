@@ -213,13 +213,20 @@
 
     }
 
-    button.addEventListener('click',() => {
+    function run(){
         if(names[0].value=='' || names[1].value==''){
             errordisp()
         }
         else{
             flames()
         }
+    }
+    
+    button.addEventListener('click',run)
+    document.addEventListener('keydown',(event)=>{
+      if(event.key=='enter'){
+          run()
+      }
     })
 
     returnbtn.addEventListener('mouseover',(event)=>{
