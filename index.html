@@ -233,14 +233,25 @@
 
     }
 
-    button.addEventListener('click',() => {
+    function run(){
         if(names[0].value=='' || names[1].value==''){
             errordisp()
         }
         else{
             flames()
         }
+    }
+
+    addEventListener('keydown',(event)=>{
+        if(event.key=="Enter" && document.contains(button)){
+            run()
+        }
+        else if(event.key=="Enter"){
+            location.reload()
+        }
     })
+    
+    button.addEventListener('click',run)
 
     returnbtn.addEventListener('mouseover',(event)=>{
         event.target.style.backgroundColor = "#1D3557"
